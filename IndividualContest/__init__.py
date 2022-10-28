@@ -31,7 +31,7 @@ class Player(BasePlayer):
 
 # initializes additional income a given to player 2
 def set_random_additional_income(group):
-    if group.subsession == 1:
+    if group.subsession.Treatment == 1:
         group.a = random.randint(0, C.w+1)
 
 
@@ -47,7 +47,7 @@ def determine_winner(group):
         group.winner = 2
 
 
-def calculate_profits(group):
+def calculate_profit(group):
     x1 = group.get_player_by_id(1)
     x2 = group.get_player_by_id(2)
     if group.winner == 1:
@@ -68,16 +68,14 @@ class TransferAdditionalIncome(Page):
 
     @staticmethod
     def is_displayed(player):
-        return player.id_in_group == 1 and player.subsession == 2
+        return player.id_in_group == 1 and player.subsession.Treatment == 2
+
+class RandomRent(WaitPage):
 
 
 class SetRent(Page):
     form_model = 'group'
     form_fields = ['R']
-
-    @staticmethod
-    def is_displayed(player):
-        return player.id_in_group == 2
 
 
 class Invest(Page):
@@ -90,7 +88,7 @@ class DetermineWinner(WaitPage):
 
 
 class CalculateProfits(WaitPage):
-    after_all_players_arrive = 'distribute_profit'
+    after_all_players_arrive = 'calculate_profit'
 
 
 class Results(Page):
