@@ -36,8 +36,11 @@ def set_random_additional_income(group):
         group.a = random.randint(0, C.w + 1)
 
 
-def set_opponent_effort(player):
-    player.opponent_x = player.group.get_player_by_id(3 - player.id_in_group).x
+def set_opponent_effort(group):
+    p1 = group.get_player_by_id(1)
+    p2 = group.get_player_by_id(2)
+    p1.opponent_x = p2.x
+    p2.opponent_x = p1.x
 
 
 # runs functions to aggregate effort and find winner
@@ -77,8 +80,12 @@ class TransferAdditionalIncome(Page):
         return player.id_in_group == 1 and player.subsession.Treatment == 2
 
 
-class RandomRent(WaitPage):
+class RandomAdditionalIncome(WaitPage):
     after_all_players_arrive = 'set_random_additional_income'
+
+
+class DisplayAdditionalIncome(Page):
+    pass
 
 
 class SetRent(Page):
@@ -88,6 +95,13 @@ class SetRent(Page):
     @staticmethod
     def is_displayed(player):
         return player.id_in_group == 2
+
+class WaitForRent(WaitPage):
+    pass
+
+
+class DisplayRent(Page):
+    pass
 
 
 class Invest(Page):
@@ -111,4 +125,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Introduction, TransferAdditionalIncome, SetRent, Invest, DetermineWinner, CalculateProfits, Results]
+page_sequence = [Introduction, TransferAdditionalIncome, RandomAdditionalIncome, DisplayAdditionalIncome, SetRent, WaitForRent, DisplayRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]
