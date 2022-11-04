@@ -35,6 +35,7 @@
     </p>
 
     <script>
+    console.log('test');
       class Sector {
         constructor(color, angle) {
           this.color = color;
@@ -213,12 +214,14 @@
 
 
       const ENDOWMENT = {{ C.w }};
+      console.log(ENDOWMENT);
       const EFFORT = {{ player.x }};
+      console.log(EFFORT);
       const OPPONENT_EFFORT = {{ player.opponent_x }};
       const TOTAL_EFFORT = EFFORT + OPPONENT_EFFORT;
       const WIN_PROB = EFFORT /  TOTAL_EFFORT;
       const OPPONENT_WIN_PROB = 1 - WIN_PROB;
-      const DID_WIN = ('{{ player.id_in_group }}' === player.group.winner);
+      const DID_WIN = ('{{ player.id_in_group }}' === '{{ player.group.winner }}');
 
       document.getElementById('win_sentence').innerText = (
         DID_WIN ? 'You won!' : 'You did not win.'
