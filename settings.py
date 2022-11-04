@@ -3,8 +3,15 @@ from os import environ
 SESSION_CONFIGS = [
     dict(
         name='SammyCode',
-        app_sequence=['OneOnThreeGame'],
+        app_sequence=['IndividualContest'],
         num_demo_participants=4,
+    ),
+]
+
+ROOMS = [
+    dict(
+        name='Tide_Lab',
+        display_name='Behavioral Economics Lab'
     ),
 ]
 
