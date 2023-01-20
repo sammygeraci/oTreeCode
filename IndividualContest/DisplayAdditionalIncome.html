@@ -5,6 +5,30 @@
 
     You are player {{ player.id_in_group }}.
     Player 2 gets {{ group.a }} additional income.
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em" id="legend-player-color">&nbsp;</td>
+        <td style="text-align: left">You</td>
+      </tr>
+      <tr>
+        <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
+        <td style="text-align: left">Opponent</td>
+      </tr>
+    </table>
+
     {{ next_button }}
+
+    <script>
+    
+    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+    
+    
+    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+    
+    
+    </script>
 
 {{ endblock }}

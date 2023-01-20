@@ -26,8 +26,8 @@
     </div>
 
     <p>
-      You replaced {{ player.x }} balls. Your opponent replaced
-      {{ player.opponent_x }} balls. Your probability of winning is about
+      You purchased {{ player.x }} raffle tickets. Your opponent purchased
+      {{ player.opponent_x }} raffle tickets. Your probability of winning is about
       <span id="win_prob_pct"></span>%.
     </p>
     <p id="outcome" style="visibility: hidden; opacity: 0; transition: 0.5s; font-weight: bold">
@@ -222,6 +222,7 @@
       const WIN_PROB = EFFORT /  TOTAL_EFFORT;
       const OPPONENT_WIN_PROB = 1 - WIN_PROB;
       const DID_WIN = ('{{ player.id_in_group }}' === '{{ player.group.winner }}');
+      const IS_BLUE = ('{{ player.id_in_group }}' == '1');
 
       document.getElementById('win_sentence').innerText = (
         DID_WIN ? 'You won!' : 'You did not win.'
@@ -230,8 +231,10 @@
         Math.round(1000 * WIN_PROB) / 10
       ).toFixed(1);
 
-      const PLAYER_COLOR = '#60b1eb';
-      const OPPONENT_COLOR = '#60eb83';
+      const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+      const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+        
+
 
       document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
       document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
