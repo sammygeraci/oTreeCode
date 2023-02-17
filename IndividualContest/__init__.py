@@ -10,12 +10,12 @@ Demonstration of game that will be used for TIDE Lab research in group contest t
 class C(BaseConstants):
     NAME_IN_URL = 'IndividualContest'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 5
     w = 200
 
 
 class Subsession(BaseSubsession):
-    Treatment = models.IntegerField(initial=1, min=1, max=2, )
+    Treatment = models.IntegerField(initial=2, min=1, max=2, )
 
 
 class Group(BaseGroup):
@@ -48,8 +48,8 @@ def determine_winner(group):
     x1 = group.get_player_by_id(1).x
     x2 = group.get_player_by_id(2).x
     if x1 == 0 and x2 == 0:
-        group.winner = random.randint(1, 3)
-    elif random.randint(0, x1 + x2) < x1:
+        group.winner = random.randint(1, 2)
+    elif random.randint(1, x1 + x2) <= x1:
         group.winner = 1
     else:
         group.winner = 2
@@ -60,7 +60,7 @@ def calculate_profit(group):
     x2 = group.get_player_by_id(2).x
     if group.winner == 1:
         group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1
-        group.get_player_by_id(2).pi = C.w + group.a - x1
+        group.get_player_by_id(2).pi = C.w + group.a - x2
     elif group.winner == 2:
         group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1 - group.R
         group.get_player_by_id(2).pi = C.w + group.a - x2 + group.R
