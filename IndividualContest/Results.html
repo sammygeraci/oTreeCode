@@ -37,7 +37,7 @@
     </p>
 
     <script>
-    console.log('test');
+      console.log('test');
       class Sector {
         constructor(color, angle) {
           this.color = color;
@@ -235,12 +235,24 @@
 
       const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
       const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+
       const INITIAL_ENDOWMENT = '{{ C.w }}';
       const TRANSFER_AMOUNT = '{{ group.a }}';
-      const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-      const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-      const PLAYER_MONEY = (IS_BLUE ? (BLUE_MONEY - EFFORT) : (RED_MONEY - EFFORT));
-      const OPPONENT_MONEY = (IS_BLUE ? (RED_MONEY - OPPONENT_EFFORT) : (BLUE_MONEY - OPPONENT_EFFORT));
+
+      const BLUE_EFFORT = (IS_BLUE ? EFFORT : OPPONENT_EFFORT);
+      const RED_EFFORT = (IS_BLUE ? OPPONENT_EFFORT : EFFORT);
+
+      const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT - BLUE_EFFORT;
+      const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT) - RED_EFFORT;
+
+      const CONTEST_PRIZE = '{{ group.R }}';
+      const RED_IF_RED_WINS = RED_MONEY + (1 * CONTEST_PRIZE);
+      const BLUE_IF_RED_WINS = BLUE_MONEY - (1 * CONTEST_PRIZE);
+      const RED_IF_BLUE_WINS = RED_MONEY;
+      const BLUE_IF_BLUE_WINS = BLUE_MONEY;
+
+      const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+      const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
       
 
 
@@ -262,7 +274,10 @@
           outcome.style.visibility = 'visible';
           outcome.style.opacity = '1';
           document.getElementById('nextbutton-outer').style.visibility = 'visible';
-          document.getElementById('legend-player-money').innerHTML = 0;
+          const NEW_PLAYER_MONEY = (DID_WIN ? (IS_BLUE ? BLUE_IF_BLUE_WINS : RED_IF_RED_WINS) : (IS_BLUE ? BLUE_IF_RED_WINS : RED_IF_BLUE_WINS));
+          const NEW_OPPONENT_MONEY = (DID_WIN ? (IS_BLUE ? RED_IF_BLUE_WINS : BLUE_IF_RED_WINS) : (IS_BLUE ? RED_IF_RED_WINS : BLUE_IF_BLUE_WINS));
+          document.getElementById('legend-player-money').innerHTML = NEW_PLAYER_MONEY;
+          document.getElementById('legend-opponent-money').innerHTML = NEW_OPPONENT_MONEY;
         }
       });
 

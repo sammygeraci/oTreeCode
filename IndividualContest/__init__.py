@@ -67,7 +67,7 @@ def calculate_profit(group):
 
 
 # PAGES
-class Introduction(WaitPage):
+class Introduction(Page):
     pass
 
 
@@ -87,6 +87,10 @@ class RandomAdditionalIncome(WaitPage):
 class DisplayAdditionalIncome(Page):
     pass
 
+    @staticmethod
+    def is_displayed(player):
+        return player.id_in_group == 1
+
 
 class SetRent(Page):
     form_model = 'group'
@@ -97,10 +101,6 @@ class SetRent(Page):
         return player.id_in_group == 2
 
 class WaitForRent(WaitPage):
-    pass
-
-
-class DisplayRent(Page):
     pass
 
 
@@ -125,4 +125,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Introduction, TransferAdditionalIncome, RandomAdditionalIncome, DisplayAdditionalIncome, SetRent, WaitForRent, DisplayRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]
+page_sequence = [Introduction, TransferAdditionalIncome, RandomAdditionalIncome, DisplayAdditionalIncome, SetRent, WaitForRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]
