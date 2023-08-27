@@ -76,9 +76,8 @@ def calculate_profit(group):
 
 
 # PAGES
-class Dictator(Page):
+class Risk(Page):
     form_model = "group"
-    form_fields = ['a']
 
 
 class Introduction(Page):
@@ -116,6 +115,7 @@ class SetRent(Page):
     def is_displayed(player):
         return player.id_in_group == 2
 
+
 class WaitForRent(WaitPage):
     pass
 
@@ -145,4 +145,6 @@ class Results(Page):
     pass
 
 
-page_sequence = [Dicator, Risk, Introduction, TransferAdditionalIncome, DisplayAdditionalIncome, RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, DisplayRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]
+page_sequence = [Introduction, TransferAdditionalIncome, DisplayAdditionalIncome,
+                 RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, DisplayRent, Invest,
+                 OpponentEffort, DetermineWinner, CalculateProfits, Results]

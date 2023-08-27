@@ -1,0 +1,20 @@
+{{ block content }}
+    <p id="message-1"></p>
+    <p>The coin landed on {{ player.coin_flip }} </p>
+    <p id="message-2"></p>
+    {{ next_button }}
+
+    <script>
+        MESSAGE1 = 'You wagered {{ player.x }} lab dollar';
+        MESSAGE1 += ({{ player.x }} == 1) ? '.' : 's.';
+
+        MESSAGE2 = 'Your total earnings for this round are {{ player.pi }} lab dollar';
+        MESSAGE2 += ({{ player.pi }} == 1) ? '.' : 's.';
+
+
+        document.getElementById('message-1').innerHTML = MESSAGE1;
+        document.getElementById('message-2').innerHTML = MESSAGE2;
+    </script>
+{{ endblock }}
+
+
