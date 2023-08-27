@@ -1,6 +1,3 @@
-{{ block title }}
-    Display Additional Income
-{{ endblock }}
 {{ block content }}
 
     <table style="border-spacing: 4px; border-collapse: separate">
@@ -11,10 +8,14 @@
       </tr>
       <tr>
         <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
-        <td style="text-align: left">Opponent</td>
+        <td style="text-align: left">Counterpart</td>
         <td style="text-align: left" id="legend-opponent-money"></td>
       </tr>
     </table>
+
+    <br>
+    <p>In addition to the initial endowment, your counterpart has been given a further 200 lab dollars.</p>
+    <p>Your counterpart may now transfer any amount from 0 to 200 of those additional lab dollars to you.</p>
 
     {{ next_button }}
 
@@ -24,9 +25,8 @@
     const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
     const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
     const INITIAL_ENDOWMENT = '{{ C.w }}';
-    const TRANSFER_AMOUNT = '{{ group.a }}';
-    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-    const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT;
+    const RED_MONEY = INITIAL_ENDOWMENT;
     const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
     const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
     

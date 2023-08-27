@@ -1,6 +1,3 @@
-{{ block title }}
-    Display Rent
-{{ endblock }}
 {{ block content }}
 
     <table style="border-spacing: 4px; border-collapse: separate">
@@ -16,29 +13,42 @@
       </tr>
     </table>
 
-
-    You are player {{ player.id_in_group }}.
-    Rent is {{ group.R }}.
+    <br>
+    <p>The lottery prize is {{ group.R }}.</p>
+    <p id="player-win-message"></p>
+    <p id="player-lose-message"></p>
 
     {{ next_button }}
 
     <script>
-    
-    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
-    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
-    const INITIAL_ENDOWMENT = '{{ C.w }}';
-    const TRANSFER_AMOUNT = '{{ group.a }}';
-    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-    const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
-    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
-    
-    
-    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+        const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+        const INITIAL_ENDOWMENT = '{{ C.w }}';
+        const TRANSFER_AMOUNT = '{{ group.a }}';
+        const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+        const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+
+        PLAYER_WIN_AMOUNT = 'If your lottery ticket is chosen, you will have ';
+        PLAYER_WIN_AMOUNT += (IS_BLUE ? BLUE_MONEY : RED_MONEY + {{ group.R }});
+        PLAYER_WIN_AMOUNT += ', and your opponent will have ';
+        PLAYER_WIN_AMOUNT += (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }}) + '.';
+
+        PLAYER_LOSE_AMOUNT = "If your counterpart's lottery ticket is chosen, you will have ";
+        PLAYER_LOSE_AMOUNT += (IS_BLUE ? BLUE_MONEY - {{ group.R }} : RED_MONEY);
+        PLAYER_LOSE_AMOUNT += ', and your opponent will have ';
+        PLAYER_LOSE_AMOUNT += (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY) + '.';
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_AMOUNT;
+        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_AMOUNT;
     
     
     </script>

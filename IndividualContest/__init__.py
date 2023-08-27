@@ -15,19 +15,24 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    Treatment = models.IntegerField(initial=2, min=1, max=2, )
+    Treatment = models.IntegerField(initial=1, min=1, max=2)
 
 
 class Group(BaseGroup):
-    a = models.IntegerField(min=0, max=C.w)
-    R = models.IntegerField(min=0, max=C.w / 2)
+    a = models.IntegerField(min=0, max=C.w, label="Enter the amount to transfer:")
+    R = models.IntegerField(min=0, max=C.w / 2, label="Enter the amount for the lottery prize:")
     winner = models.IntegerField(min=1, max=2)
 
 
 class Player(BasePlayer):
-    x = models.IntegerField(min=0, max=C.w / 2)
+    x = models.IntegerField(min=0, max=C.w / 2, label="Enter the number of lottery tickets you purchase:")
     opponent_x = models.IntegerField(min=0, max=C.w / 2)
     pi = models.IntegerField(min=0, max=2 * C.w)
+    opponent_pi = models.IntegerField(initial=0, min=0, max=2 * C.w)
+
+
+def creating_session(subsession):
+    subsession.group_randomly()
 
 
 # initializes additional income a given to player 2
@@ -60,14 +65,23 @@ def calculate_profit(group):
     x2 = group.get_player_by_id(2).x
     if group.winner == 1:
         group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1
+        group.get_player_by_id(2).opponent_pi = C.w + (C.w - group.a) - x1
         group.get_player_by_id(2).pi = C.w + group.a - x2
+        group.get_player_by_id(1).opponent_pi = C.w + group.a - x2
     elif group.winner == 2:
         group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1 - group.R
+        group.get_player_by_id(2).opponent_pi = C.w + (C.w - group.a) - x1 - group.R
         group.get_player_by_id(2).pi = C.w + group.a - x2 + group.R
+        group.get_player_by_id(1).opponent_pi = C.w + group.a - x2 + group.R
 
 
 # PAGES
-class Introduction(WaitPage):
+class Dictator(Page):
+    form_model = "group"
+    form_fields = ['a']
+
+
+class Introduction(Page):
     pass
 
 
@@ -80,11 +94,17 @@ class TransferAdditionalIncome(Page):
         return player.id_in_group == 1 and player.subsession.Treatment == 2
 
 
+class DisplayAdditionalIncome(Page):
+    @staticmethod
+    def is_displayed(player):
+        return player.id_in_group == 2 and player.subsession.Treatment == 2
+
+
 class RandomAdditionalIncome(WaitPage):
     after_all_players_arrive = 'set_random_additional_income'
 
 
-class DisplayAdditionalIncome(Page):
+class DisplayIncomeTransfer(Page):
     pass
 
 
@@ -125,4 +145,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Introduction, TransferAdditionalIncome, RandomAdditionalIncome, DisplayAdditionalIncome, SetRent, WaitForRent, DisplayRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]
+page_sequence = [Dicator, Risk, Introduction, TransferAdditionalIncome, DisplayAdditionalIncome, RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, DisplayRent, Invest, OpponentEffort, DetermineWinner, CalculateProfits, Results]

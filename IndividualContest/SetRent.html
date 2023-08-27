@@ -1,9 +1,45 @@
-{{ block title }}
-    Set Rent
-{{ endblock }}
 {{ block content }}
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em" id="legend-player-color">&nbsp;</td>
+        <td style="text-align: left">You</td>
+        <td style="text-align: left" id="legend-player-money"></td>
+      </tr>
+      <tr>
+        <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
+        <td style="text-align: left">Opponent</td>
+        <td style="text-align: left" id="legend-opponent-money"></td>
+      </tr>
+    </table>
+
+    <br>
+    <p>You will now enter a lottery with your counterpart.</p>
+    <p>You and your counterpart will each have the opportunity to purchase lottery tickets.</p>
+    <p>One lottery ticket will randomly be selected.</p>
+    <p>If your lottery ticket is selected, your counterpart will transfer the amount of the lottery prize to you.</p>
+    <p>If your counterpart's lottery ticket is selected, no transfer will occur.</p>
 
     {{ formfields }}
     {{ next_button }}
+
+    <script>
+
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+        const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+        const INITIAL_ENDOWMENT = '{{ C.w }}';
+        const TRANSFER_AMOUNT = '{{ group.a }}';
+        const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+        const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+
+    </script>
 
 {{ endblock }}
