@@ -32,23 +32,31 @@
         const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
         const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
 
-        PLAYER_WIN_AMOUNT = 'If your lottery ticket is chosen, you will have ';
-        PLAYER_WIN_AMOUNT += (IS_BLUE ? BLUE_MONEY : RED_MONEY + {{ group.R }});
-        PLAYER_WIN_AMOUNT += ', and your opponent will have ';
-        PLAYER_WIN_AMOUNT += (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }}) + '.';
+        PLAYER_WIN_MESSAGE = 'If your lottery ticket is chosen, you will have ';
+        PLAYER_WIN_AMOUNT1 = (IS_BLUE ? BLUE_MONEY : RED_MONEY + {{ group.R }});
+        PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT1;
+        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
+        PLAYER_WIN_MESSAGE += ', and your opponent will have ';
+        PLAYER_WIN_AMOUNT2 = (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }});
+        PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT2;
+        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT2 == 1) ? ' lab dollar.' : ' lab dollars.';
 
-        PLAYER_LOSE_AMOUNT = "If your counterpart's lottery ticket is chosen, you will have ";
-        PLAYER_LOSE_AMOUNT += (IS_BLUE ? BLUE_MONEY - {{ group.R }} : RED_MONEY);
-        PLAYER_LOSE_AMOUNT += ', and your opponent will have ';
-        PLAYER_LOSE_AMOUNT += (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY) + '.';
+        PLAYER_LOSE_MESSAGE = "If your counterpart's lottery ticket is chosen, you will have ";
+        PLAYER_LOSE_AMOUNT1 = (IS_BLUE ? BLUE_MONEY - {{ group.R }} : RED_MONEY);
+        PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT1;
+        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
+        PLAYER_LOSE_MESSAGE += ', and your opponent will have ';
+        PLAYER_LOSE_AMOUNT2 = (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY);
+        PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT2;
+        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT2 == 1) ? ' lab dollar.' : ' lab dollars.';
 
 
         document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
         document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
         document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
         document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
-        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_AMOUNT;
-        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_AMOUNT;
+        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_MESSAGE;
+        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_MESSAGE;
     
     
     </script>
