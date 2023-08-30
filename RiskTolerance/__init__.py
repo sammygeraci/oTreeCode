@@ -12,7 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'RiskTolerance'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    w = 100
+    w = 50
 
 
 class Subsession(BaseSubsession):
