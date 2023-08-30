@@ -10,7 +10,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'DictatorGame'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
-    w = 100
+    w = 50
 
 
 class Subsession(BaseSubsession):
