@@ -15,7 +15,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    Treatment = models.IntegerField(initial=2, min=1, max=2)
+    Treatment = models.IntegerField(initial=1, min=1, max=2)
 
 
 class Group(BaseGroup):
