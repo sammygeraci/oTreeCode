@@ -1,0 +1,39 @@
+{{ block content }}
+
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em" id="legend-player-color">&nbsp;</td>
+        <td style="text-align: left">You</td>
+        <td style="text-align: left" id="legend-player-money"></td>
+      </tr>
+      <tr>
+        <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
+        <td style="text-align: left">Counterpart</td>
+        <td style="text-align: left" id="legend-opponent-money"></td>
+      </tr>
+    </table>
+
+    <br>
+    <p>You and your counterpart have each been given 200 lab dollars.</p>
+
+    {{ next_button }}
+
+    <script>
+
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+        const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+        const INITIAL_ENDOWMENT = '{{ C.w }}';
+        const PLAYER_MONEY = INITIAL_ENDOWMENT;
+        const OPPONENT_MONEY = INITIAL_ENDOWMENT;
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+
+
+    </script>
+
+{{ endblock }}

@@ -1,0 +1,41 @@
+{{ block title }}
+    Results
+{{ endblock }}
+
+{{ block content }}
+    <p>You began Part 1 with 50 lab dollars.</p>
+    <p id="message-1"></p>
+    <p id="message-2"></p>
+    <p id="message-3"></p>
+    <p>You began Part 2 with 50 lab dollars.</p>
+    <p id="message-4"></p>
+    <p>The coin landed on {{ player.participant.risk_flip }} </p>
+    <p id="message-5"></p>
+    {{ next_button }}
+
+    <script>
+        MESSAGE1 = 'You transferred {{ player.participant.dictator_x }} lab dollar';
+        MESSAGE1 += ({{ player.participant.dictator_x }} == 1) ? '' : 's';
+        MESSAGE1 += ' to your counterpart.';
+        MESSAGE2 = 'Your counterpart transferred {{ player.participant.dictator_opponent_x }} lab dollar';
+        MESSAGE2 += ({{ player.participant.dictator_opponent_x }} == 1) ? '' : 's';
+        MESSAGE2 += ' to you.';
+        MESSAGE3 = 'You finished Part 1 with {{ player.participant.dictator_pi }} lab dollar';
+        MESSAGE3 += ({{ player.participant.dictator_pi }} == 1) ? '.' : 's.';
+
+	MESSAGE4 = 'In Part 2, you wagered {{ player.participant.risk_x }} lab dollar';
+        MESSAGE4 += ({{ player.participant.risk_x }} == 1) ? '.' : 's.';
+
+        MESSAGE5 = 'Your total earnings for Part 2 were {{ player.participant.risk_pi }} lab dollar';
+        MESSAGE5 += ({{ player.participant.risk_pi }} == 1) ? '.' : 's.';
+
+        document.getElementById('message-1').innerHTML = MESSAGE1;
+        document.getElementById('message-2').innerHTML = MESSAGE2;
+        document.getElementById('message-3').innerHTML = MESSAGE3;
+
+        document.getElementById('message-4').innerHTML = MESSAGE4;
+        document.getElementById('message-5').innerHTML = MESSAGE5;
+    </script>
+{{ endblock }}
+
+

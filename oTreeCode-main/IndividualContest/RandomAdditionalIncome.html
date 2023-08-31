@@ -1,0 +1,14 @@
+{{ block title }}
+    Random Additional Income
+{{ endblock }}
+{{ block content }}
+
+    <p>
+      You purchased {{ player.x }} tickets. Your opponent purchased
+      {{ player.opponent_x }} tickets. Your probability of winning is about
+      <span id="win_prob_pct"></span>%.
+    </p>
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}
