@@ -2,7 +2,7 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-        name='Luck Egalitarians vs Relational Egalitarians in the Lottery Game',
+        name='LuckEgalitariansVsRelationalEgalitariansInTheLotteryGame',
         app_sequence=['DictatorGame', 'RiskTolerance', 'IndividualContest', 'ExplainPayoff'],
         num_demo_participants=16,
     ),
@@ -26,8 +26,6 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 PARTICIPANT_FIELDS = ['dictator_x', 'dictator_pi', 'dictator_opponent_x', 'risk_x', 'risk_pi', 'risk_flip', 'final_round_num', 'round_pi', 'round_a', 'round_r', 'round_x', 'round_opponent_x', 'round_win', 'round_color']
 SESSION_FIELDS = []
-
-OTREE_AUTH_LEVEL = "STUDY"
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
