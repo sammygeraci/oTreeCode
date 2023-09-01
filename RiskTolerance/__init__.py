@@ -4,7 +4,7 @@ from otree.api import *
 
 
 doc = """
-Your app description
+Uses a risk assessment game to gage how risk averse a player is. This allows us to control for risk aversion in the results.
 """
 
 
@@ -59,4 +59,4 @@ class Results(Page):
         player.participant.risk_flip = player.coin_flip
 
 
-page_sequence = [MyPage, CalculateCoinFlip, Results]
+page_sequence = [MyPage, CalculateCoinFlip]
