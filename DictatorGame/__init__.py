@@ -2,7 +2,7 @@ from otree.api import *
 
 
 doc = """
-Your app description
+Uses the dictator game to gage how altruistic a player is. This allows us to control for altruism in the results.
 """
 
 
@@ -58,4 +58,4 @@ class Results(Page):
         player.participant.dictator_opponent_x = player.opponent_x
 
 
-page_sequence = [Dictator, CalculateDictator, Results]
+page_sequence = [Dictator, CalculateDictator]

@@ -2,7 +2,7 @@ from otree.api import *
 
 
 doc = """
-Your app description
+Explains breakdown of payoff to player.
 """
 
 
@@ -22,6 +22,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     pass
+
 
 def calculate_payoffs(group):
     pass
