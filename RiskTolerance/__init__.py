@@ -52,7 +52,11 @@ class CalculateCoinFlip(WaitPage):
 
 
 class Results(Page):
-    pass
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.participant.risk_x = player.x
+        player.participant.risk_pi = player.pi
+        player.participant.risk_flip = player.coin_flip
 
 
 page_sequence = [MyPage, CalculateCoinFlip, Results]

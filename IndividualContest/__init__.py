@@ -10,7 +10,8 @@ Demonstration of game that will be used for TIDE Lab research in group contest t
 class C(BaseConstants):
     NAME_IN_URL = 'IndividualContest'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 5
+    NUM_ROUNDS = 2
+    NUM_PRACTICE = 0
     w = 200
 
 
@@ -29,6 +30,7 @@ class Player(BasePlayer):
     opponent_x = models.IntegerField(min=0, max=C.w / 2)
     pi = models.IntegerField(min=0, max=2 * C.w)
     opponent_pi = models.IntegerField(initial=0, min=0, max=2 * C.w)
+    final_round_num = models.IntegerField(initial=random.randrange(C.NUM_PRACTICE+1,C.NUM_ROUNDS+C.NUM_PRACTICE+1),min=C.NUM_PRACTICE+1,max=C.NUM_ROUNDS+C.NUM_PRACTICE)
 
 
 def creating_session(subsession):
@@ -74,6 +76,19 @@ def calculate_profit(group):
         group.get_player_by_id(2).pi = C.w + group.a - x2 + group.R
         group.get_player_by_id(1).opponent_pi = C.w + group.a - x2 + group.R
 
+
+def update_data(group):
+    for p in group.get_players():
+        if p.final_round_num == p.round_number:
+            p.participant.final_round_num = p.final_round_num
+            p.participant.round_pi = p.pi
+            p.participant.round_a = p.group.a
+            p.participant.round_r = p.group.R
+            p.participant.round_x = p.x
+            p.participant.round_opponent_x = p.opponent_x
+            p.participant.round_win = "YES" if p.group.winner == p.id_in_group else "NO"
+            p.participant.round_color = "BLUE" if p.id_in_group == 1 else "RED"
+            
 
 # PAGES
 class Risk(Page):
@@ -144,7 +159,10 @@ class CalculateProfits(WaitPage):
 class Results(Page):
     pass
 
+class UpdateParticipantData(WaitPage):
+    after_all_players_arrive = 'update_data'
+
 
 page_sequence = [Introduction, TransferAdditionalIncome, DisplayAdditionalIncome,
                  RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, DisplayRent, Invest,
-                 OpponentEffort, DetermineWinner, CalculateProfits, Results]
+                 OpponentEffort, DetermineWinner, CalculateProfits, Results, UpdateParticipantData]

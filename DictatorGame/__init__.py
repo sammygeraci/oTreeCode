@@ -51,7 +51,11 @@ class CalculateDictator(WaitPage):
 
 
 class Results(Page):
-    pass
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.participant.dictator_x = player.x
+        player.participant.dictator_pi = player.pi
+        player.participant.dictator_opponent_x = player.opponent_x
 
 
 page_sequence = [Dictator, CalculateDictator, Results]
