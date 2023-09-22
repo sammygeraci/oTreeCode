@@ -1,0 +1,22 @@
+{{ block title }}
+    Section 1, Round {{ player.round_number }}
+{{ endblock }}
+
+{{ block content }}
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em; background-color:#00FF00"> </td>
+        <td style="text-align: left">You</td>
+      </tr>
+      <tr>
+        <td style="width: 2em; background-color:#0000FF"> </td>
+        <td style="text-align: left">Counterpart</td>
+      </tr>
+    </table>
+    <br>
+    <p>You and your counterpart have each been given {{C.w}} lab dollars.</p>
+    <p>In addition, your counterpart has been given a further {{ C.max_x }} lab dollars.</p>
+    <p>Your counterpart can transfer any amount from 0 to {{ C.max_x }} of these lab dollars to you.</p>
+    {{ next_button }}
+
+{{ endblock }}
