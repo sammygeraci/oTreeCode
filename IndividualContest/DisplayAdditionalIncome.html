@@ -17,27 +17,41 @@
     </table>
 
     <br>
-    <p>In addition to the initial endowment, your counterpart has been given a further  lab dollars.</p>
-    <p>Your counterpart may now transfer any amount from 0 to 200 of those additional lab dollars to you.</p>
+    <p>You and your counterpart have each been given an initial endowment of 200 lab dollars.</p>
+    <p id="transfer-message1"></p>
+    <p id="transfer-message2"></p>
 
     {{ next_button }}
 
     <script>
     
-    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-    const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
-    const INITIAL_ENDOWMENT = '{{ C.w }}';
-    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT;
-    const RED_MONEY = INITIAL_ENDOWMENT;
-    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
-    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
-    
-    
-    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
+        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
+        const INITIAL_ENDOWMENT = '{{ C.w }}';
+        const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT;
+        const RED_MONEY = INITIAL_ENDOWMENT;
+        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+
+        const MAX_TRANSFER = (Number({{ C.w }}) / 2).toString();
+
+        TRANSFER_MESSAGE1 = 'In addition to the initial endowment, your counterpart has been given a further ';
+        TRANSFER_MESSAGE1 += MAX_TRANSFER;
+        TRANSFER_MESSAGE1 += ' lab dollars.'
+
+        TRANSFER_MESSAGE2 = 'Your counterpart may now transfer any amount from 0 to ';
+        TRANSFER_MESSAGE2 += MAX_TRANSFER;
+        TRANSFER_MESSAGE2 += ' of those additional lab dollars to you';
+
+        document.getElementById('transfer-message1').innerHTML = TRANSFER_MESSAGE1;
+        document.getElementById('transfer-message2').innerHTML = TRANSFER_MESSAGE2;
     
     
     </script>

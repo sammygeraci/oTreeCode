@@ -20,7 +20,7 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    a = models.IntegerField(min=0, max=C.w, label="Enter the amount to transfer:")
+    a = models.IntegerField(min=0, max=C.w / 2, label="Enter the amount to transfer:")
     R = models.IntegerField(min=0, max=C.w / 2, label="Enter the amount for the lottery prize:")
     winner = models.IntegerField(min=1, max=2)
 
@@ -93,13 +93,13 @@ def calculate_profit(group):
     x1 = group.get_player_by_id(1).x
     x2 = group.get_player_by_id(2).x
     if group.winner == 1:
-        group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1
-        group.get_player_by_id(2).opponent_pi = C.w + (C.w - group.a) - x1
+        group.get_player_by_id(1).pi = C.w + (int(C.w / 2) - group.a) - x1
+        group.get_player_by_id(2).opponent_pi = C.w + (int(C.w / 2) - group.a) - x1
         group.get_player_by_id(2).pi = C.w + group.a - x2
         group.get_player_by_id(1).opponent_pi = C.w + group.a - x2
     elif group.winner == 2:
-        group.get_player_by_id(1).pi = C.w + (C.w - group.a) - x1 - group.R
-        group.get_player_by_id(2).opponent_pi = C.w + (C.w - group.a) - x1 - group.R
+        group.get_player_by_id(1).pi = C.w + (int(C.w / 2) - group.a) - x1 - group.R
+        group.get_player_by_id(2).opponent_pi = C.w + (int(C.w / 2) - group.a) - x1 - group.R
         group.get_player_by_id(2).pi = C.w + group.a - x2 + group.R
         group.get_player_by_id(1).opponent_pi = C.w + group.a - x2 + group.R
 
@@ -120,10 +120,6 @@ def update_data(group):
 # PAGES
 class Risk(Page):
     form_model = "group"
-
-
-class Introduction(Page):
-    pass
 
 
 class TransferAdditionalIncome(Page):
@@ -207,6 +203,6 @@ class ShuffleWaitPage(WaitPage):
         pass
 
 
-page_sequence = [Introduction, TransferAdditionalIncome, DisplayAdditionalIncome,
-                 RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, DisplayRent, Invest,
+page_sequence = [TransferAdditionalIncome, DisplayAdditionalIncome,
+                 RandomAdditionalIncome, DisplayIncomeTransfer, SetRent, WaitForRent, Invest,
                  OpponentEffort, DetermineWinner, CalculateProfits, Results, UpdateParticipantData, ShuffleWaitPage]

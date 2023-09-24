@@ -32,7 +32,7 @@
         const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
         const INITIAL_ENDOWMENT = '{{ C.w }}';
         const TRANSFER_AMOUNT = '{{ group.a }}';
-        const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+        const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
         const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
         const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
         const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
