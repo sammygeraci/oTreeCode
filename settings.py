@@ -24,7 +24,9 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['dictator_x', 'dictator_pi', 'dictator_opponent_x', 'risk_x', 'risk_pi', 'risk_flip', 'final_round_num', 'round_pi', 'round_a', 'round_r', 'round_x', 'round_opponent_x', 'round_win', 'round_color']
+PARTICIPANT_FIELDS = ['persistent_id', 'dictator_x', 'dictator_pi', 'dictator_opponent_x', 'risk_x', 'risk_pi',
+                      'risk_flip', 'final_round_num', 'round_pi', 'round_a', 'round_r', 'round_x', 'round_opponent_x',
+                      'round_win', 'round_color']
 SESSION_FIELDS = []
 
 # ISO-639 code

@@ -40,12 +40,19 @@ def creating_session(subsession):
     blue = []
     green = []
     new_mat = []
-    for row in matrix:
-        blue.append(row[0])
-        green.append(row[1])
+    if subsession.round_number == 1:
+        for p in subsession.get_players():
+            if p.participant.persistent_id == 1:
+                blue.append(p)
+            else:
+                green.append(p)
+    else:
+        for row in matrix:
+            blue.append(row[0])
+            green.append(row[1])
     random.shuffle(blue)
     random.shuffle(green)
-    if subsession.round_number % 2 == 1:
+    if subsession.round_number % 2 == 0:
         for i in range(len(blue)):
             new_mat.append([green.pop(), blue.pop()])
     else:
@@ -63,6 +70,9 @@ def set_random_additional_income(group):
 def set_opponent_effort(group):
     p1 = group.get_player_by_id(1)
     p2 = group.get_player_by_id(2)
+    if group.R == 0:
+        p1.x = 0
+        p2.x = 0
     p1.opponent_x = p2.x
     p2.opponent_x = p1.x
 
@@ -160,6 +170,10 @@ class Invest(Page):
     form_model = 'player'
     form_fields = ['x']
 
+    @staticmethod
+    def is_displayed(player):
+        return player.group.R > 0
+
 
 class OpponentEffort(WaitPage):
     after_all_players_arrive = 'set_opponent_effort'
@@ -175,6 +189,10 @@ class CalculateProfits(WaitPage):
 
 class Results(Page):
     pass
+
+    @staticmethod
+    def is_displayed(player):
+        return player.group.R > 0
 
 
 class UpdateParticipantData(WaitPage):

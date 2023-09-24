@@ -44,6 +44,9 @@ def calculate_dictator(group):
 
 
 def creating_session(subsession):
+    if subsession.round_number == 1:
+        for p in subsession.get_players():
+            p.participant.persistent_id = p.id_in_group
     subsession.group_randomly(fixed_id_in_group=True)
 
 
