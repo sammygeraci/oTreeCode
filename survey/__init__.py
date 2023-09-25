@@ -25,7 +25,7 @@ class Player(BasePlayer):
     race = models.StringField(label="Race/Ethnicity: ",
                               choices=["Hispanic or Latino", "American Indian or Alaska Native", "Asian",
                                        "Black or African American", "Native Hawaiian or other Pacific Islander",
-                                       "White"])
+                                       "White", "Prefer not to say"])
     grade = models.IntegerField(label="Year in college including undergraduate and graduate studies:", choices=[
         [1, "First Year Student"],
         [2, "Second Year Student"],

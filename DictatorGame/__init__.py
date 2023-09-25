@@ -12,7 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'DictatorGame'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 2
-    TOTAL_ROUNDS = 15
+    TOTAL_ROUNDS = 16
     w = 200
     max_a = 100
 

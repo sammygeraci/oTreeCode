@@ -7,17 +7,15 @@
       <tr>
         <td style="width: 2em" id="legend-player-color">&nbsp;</td>
         <td style="text-align: left">You</td>
-        <td style="text-align: left" id="legend-player-money"></td>
       </tr>
       <tr>
         <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
         <td style="text-align: left">Opponent</td>
-        <td style="text-align: left" id="legend-opponent-money"></td>
       </tr>
     </table>
 
     <br>
-    <p>The lottery prize is {{ group.R }}.</p>
+    <p>The lottery prize is {{ group.R }} lab dollars.</p>
     <p id="player-win-message"></p>
     <p id="player-lose-message"></p>
     <p>You now have the opportunity to purchase up to 100 lottery tickets for 1 lab dollar per ticket.</p>
@@ -40,25 +38,27 @@
         PLAYER_WIN_AMOUNT1 = (IS_BLUE ? BLUE_MONEY : RED_MONEY + {{ group.R }});
         PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT1;
         PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
+	PLAYER_WIN_MESSAGE += ' minus the amount you spend on tickets';
         PLAYER_WIN_MESSAGE += ', and your opponent will have ';
         PLAYER_WIN_AMOUNT2 = (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }});
         PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT2;
-        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT2 == 1) ? ' lab dollar.' : ' lab dollars.';
+        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';
+	PLAYER_WIN_MESSAGE += ' minus the amount they spend on tickets.';
 
         PLAYER_LOSE_MESSAGE = "If your counterpart's lottery ticket is chosen, you will have ";
         PLAYER_LOSE_AMOUNT1 = (IS_BLUE ? BLUE_MONEY - {{ group.R }} : RED_MONEY);
         PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT1;
         PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
+	PLAYER_LOSE_MESSAGE += ' minus the amount you spend on tickets';
         PLAYER_LOSE_MESSAGE += ', and your opponent will have ';
         PLAYER_LOSE_AMOUNT2 = (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY);
         PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT2;
-        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT2 == 1) ? ' lab dollar.' : ' lab dollars.';
+        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';
+	PLAYER_LOSE_MESSAGE += ' minus the amount they spend on tickets.';
     
 
         document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
         document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
         document.getElementById('player-win-message').innerHTML = PLAYER_WIN_MESSAGE;
         document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_MESSAGE;
     

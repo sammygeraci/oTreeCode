@@ -10,7 +10,7 @@ Demonstration of game that will be used for TIDE Lab research in group contest t
 class C(BaseConstants):
     NAME_IN_URL = 'IndividualContest'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 13
+    NUM_ROUNDS = 14
     w = 200
 
 
