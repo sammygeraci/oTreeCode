@@ -12,7 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'DictatorGame'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 2
-    TOTAL_ROUNDS = 4
+    TOTAL_ROUNDS = 15
     w = 200
     max_a = 100
 
@@ -49,7 +49,7 @@ def calculate_dictator(group):
             p.participant.round_x = 0
             p.participant.round_opponent_x = 0
             p.participant.round_win = "DICTATOR_GAME"
-            p.participant.round_color = "BLUE" if p.id_in_group == 1 else "GREEN"
+            p.participant.round_color = "BLUE" if (p.id_in_group + p.round_number) % 2 == 0 else "GREEN"
 
 
 def creating_session(subsession):

@@ -10,7 +10,7 @@ Demonstration of game that will be used for TIDE Lab research in group contest t
 class C(BaseConstants):
     NAME_IN_URL = 'IndividualContest'
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 2
+    NUM_ROUNDS = 13
     w = 200
 
 
@@ -104,7 +104,7 @@ def calculate_profit(group):
 
 def update_data(group):
     for p in group.get_players():
-        if p.participant.final_round_num == p.Adjusted_Round:
+        if p.participant.final_round_num == p.subsession.Adjusted_Round:
             p.participant.round_pi = p.pi
             p.participant.round_a = p.group.a
             p.participant.round_r = p.group.R

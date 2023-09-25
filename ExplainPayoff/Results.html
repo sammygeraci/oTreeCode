@@ -10,23 +10,23 @@
     <p id="invest-message"></p>
     <p id="win-message"></p>
     <p>Your payoff for round {{ player.selected_round }} was {{ player.pi }} lab dollars.</p>
-    <p>This is equivalent to ${{ player.round_dollars }} United States Dollars.</p>
+    <p>This is equivalent to {{ player.round_dollars }} United States Dollars.</p>
     <p>In round 16, you wagered {{ player.r_x }} lab dollars on the coin flip.</p>
     <p>The coin landed on {{ player.r_flip }}.</p>
     <p>Your payoff for round 16 was {{ player.r_pi }} lab dollars.</p>
-    <p>This is equivalent to ${{ player.r_dollars }} United States Dollars.</p>
+    <p>This is equivalent to {{ player.r_dollars }} United States Dollars.</p>
     <p>You also received a $5.00 show-up bonus.</p>
-    <p>Your total earnings today are ${{ player.round_dollars }} + ${{ player.r_dollars }} + $5.00 = ${{ player.total_dollars }} United States Dollars.</p>
+    <p>Your total earnings today are {{ player.round_dollars }} + {{ player.r_dollars }} + $5.00 = {{ player.total_dollars }} United States Dollars.</p>
 
     {{ next_button }}
 
     <script>
         TRANSFER_MESSAGE = "";
         if ("{{ player.color }}" == "BLUE") {
-            TRANSFER_MESSAGE = "You transferred {{ player.group.a }} lab dollars to your counterpart";
+            TRANSFER_MESSAGE = "You transferred {{ player.a }} lab dollars to your counterpart";
         }
         else if ("{{ player.color}}" == "GREEN") {
-            TRANSFER_MESSAGE = "Your counterpart transferred {{ player.group.a }} lab dollars to you";
+            TRANSFER_MESSAGE = "Your counterpart transferred {{ player.a }} lab dollars to you";
         }
 
         RENT_MESSAGE = "";
