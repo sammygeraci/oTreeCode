@@ -24,8 +24,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['persistent_id', 'dictator_x', 'dictator_pi', 'dictator_opponent_x', 'risk_x', 'risk_pi',
-                      'risk_flip', 'final_round_num', 'round_pi', 'round_a', 'round_r', 'round_x', 'round_opponent_x',
+PARTICIPANT_FIELDS = ['persistent_id', 'risk_x', 'risk_pi', 'risk_flip', 'final_round_num', 'round_pi', 'round_a', 'round_r', 'round_x', 'round_opponent_x',
                       'round_win', 'round_color']
 SESSION_FIELDS = []
 
@@ -35,7 +34,7 @@ LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+USE_POINTS = False
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

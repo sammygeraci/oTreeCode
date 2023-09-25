@@ -1,14 +1,9 @@
 {{ block title }}
-    Round {{ player.round_number }} Results
+    Section 1, Round {{ player.subsession.Adjusted_Round }} Results
 {{ endblock }}
 {{ block content }}
 
     <div style="text-align: center">
-      <div id="countdown" style="margin-bottom: 1rem;">
-        Spinning in
-        <div id="time-until-spin" style="font-size: 200%; font-weight: bold;"></div>
-        <div id="time-until-spin-meter" style="border-bottom: 6px solid #000; margin: auto;"></div>
-      </div>
       <table style="border-spacing: 4px; border-collapse: separate">
         <tr>
           <td style="width: 2em" id="legend-player-color">&nbsp;</td>
@@ -21,6 +16,11 @@
           <td style="text-align: left" id="legend-opponent-money"></td>
         </tr>
       </table>
+        <div id="countdown" style="margin-bottom: 0rem;">
+        Spinning in
+        <div id="time-until-spin" style="font-size: 200%; font-weight: bold;"></div>
+        <div id="time-until-spin-meter" style="border-bottom: 6px solid #000; margin: auto;"></div>
+      </div>
       <p>
         <canvas id="canvas" width="250" height="250"></canvas>
       </p>

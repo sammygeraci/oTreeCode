@@ -1,0 +1,46 @@
+{{ block title }}
+    Section 1, Round {{ player.subsession.Adjusted_Round }}, Results
+{{ endblock }}
+{{ block content }}
+
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em" id="legend-player-color">&nbsp;</td>
+        <td style="text-align: left">You</td>
+        <td style="text-align: left" id="legend-player-money"></td>
+      </tr>
+      <tr>
+        <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
+        <td style="text-align: left">Opponent</td>
+        <td style="text-align: left" id="legend-opponent-money"></td>
+      </tr>
+    </table>
+
+    <br>
+    <b>The lottery prize was set to 0, so no lottery occurred. Your payoff is {{ player.pi }}.</b>
+    <br><br>
+
+    {{ next_button }}
+
+    <script>
+
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
+        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
+        const PLAYER_MONEY = {{ player.pi }};
+        const OPPONENT_MONEY = {{ player.opponent_pi }};
+
+
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_MESSAGE;
+        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_MESSAGE;
+
+
+    </script>
+
+{{ endblock }}

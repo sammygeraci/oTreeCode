@@ -4,7 +4,7 @@ from otree.api import *
 
 
 doc = """
-Uses a risk assessment game to gage how risk averse a player is. This allows us to control for risk aversion in the results.
+Uses a risk assessment game to gage how risk averse a player is. This allows us to control for risk aversion in data.
 """
 
 
@@ -12,7 +12,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'RiskTolerance'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
-    w = 50
+    w = 100
 
 
 class Subsession(BaseSubsession):
@@ -31,9 +31,9 @@ class Player(BasePlayer):
 
 def calculate_coin_flip(group):
     for p in group.get_players():
-        coin = ["heads", "tails"]
+        coin = ["HEADS", "TAILS"]
         p.coin_flip = random.choice(coin)
-        if p.coin_flip == "heads":
+        if p.coin_flip == "HEADS":
             p.pi = int(1.5 * p.x) + C.w
             if int(1.5 * p.x) < 1.5 * p.x:
                 p.pi += 1
@@ -52,6 +52,8 @@ class CalculateCoinFlip(WaitPage):
 
 
 class Results(Page):
+    pass
+
     @staticmethod
     def before_next_page(player, timeout_happened):
         player.participant.risk_x = player.x
@@ -59,4 +61,4 @@ class Results(Page):
         player.participant.risk_flip = player.coin_flip
 
 
-page_sequence = [MyPage, CalculateCoinFlip]
+page_sequence = [MyPage, CalculateCoinFlip, Results]

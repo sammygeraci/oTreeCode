@@ -1,3 +1,5 @@
+import random
+
 from otree.api import *
 
 
@@ -10,8 +12,9 @@ class C(BaseConstants):
     NAME_IN_URL = 'DictatorGame'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 2
+    TOTAL_ROUNDS = 4
     w = 200
-    max_x = 100
+    max_a = 100
 
 
 class Subsession(BaseSubsession):
@@ -19,13 +22,11 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    pass
+    a = models.IntegerField(min=0, max=C.max_a, label="Enter the amount to transfer to your counterpart:")
 
 
 class Player(BasePlayer):
-    pi = models.IntegerField(min=0, max=C.w + C.max_x)
-    x = models.IntegerField(min=0, max=C.max_x, label="Enter the amount to transfer to your counterpart:")
-    opponent_x = models.IntegerField(min=0, max=C.max_x, initial=0)
+    pi = models.IntegerField(min=C.w, max=C.w + C.max_a)
     dictator = models.BooleanField()
 
 
@@ -37,23 +38,32 @@ def calculate_dictator(group):
             player.dictator = True
         else:
             player.dictator = False
-    player2.opponent_x = player1.x
-    player2.x = 0
-    player1.pi = C.w + C.max_x - player1.x
-    player2.pi = C.w + player2.opponent_x
+    player1.pi = C.w + C.max_a - group.a
+    player2.pi = C.w + group.a
+
+    for p in group.get_players():
+        if p.participant.final_round_num == p.round_number:
+            p.participant.round_pi = p.pi
+            p.participant.round_a = p.group.a
+            p.participant.round_r = 0
+            p.participant.round_x = 0
+            p.participant.round_opponent_x = 0
+            p.participant.round_win = "DICTATOR_GAME"
+            p.participant.round_color = "BLUE" if p.id_in_group == 1 else "GREEN"
 
 
 def creating_session(subsession):
     if subsession.round_number == 1:
         for p in subsession.get_players():
+            p.participant.final_round_num = random.randint(1, C.TOTAL_ROUNDS)
             p.participant.persistent_id = p.id_in_group
     subsession.group_randomly(fixed_id_in_group=True)
 
 
 # PAGES
 class Dictator(Page):
-    form_model = "player"
-    form_fields = ['x']
+    form_model = "group"
+    form_fields = ['a']
 
     @staticmethod
     def is_displayed(player):

@@ -1,5 +1,5 @@
 {{ block title }}
-    Round {{ player.round_number }}, Stage 3
+    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 2
 {{ endblock }}
 {{ block content }}
     <table style="border-spacing: 4px; border-collapse: separate">
@@ -16,11 +16,14 @@
     </table>
 
     <br>
+    <p id="player-message"></p>
+    <p id="random-message"></p>
     <p>You will now enter a lottery with your counterpart.</p>
     <p>You and your counterpart will each have the opportunity to purchase lottery tickets.</p>
     <p>One lottery ticket will randomly be selected.</p>
     <p>If your lottery ticket is selected, your counterpart will transfer the amount of the lottery prize to you.</p>
     <p>If your counterpart's lottery ticket is selected, no transfer will occur.</p>
+    <p>If the lottery prize is 0, no lottery will occur, and you will proceed to the next round. </p>
 
     {{ formfields }}
     {{ next_button }}
@@ -36,12 +39,20 @@
         const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
         const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
         const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+        MESSAGE = (IS_BLUE ? 'You' : 'Your counterpart');
+        MESSAGE = MESSAGE + ' transferred ' + TRANSFER_AMOUNT + ' lab dollar';
+        MESSAGE += (TRANSFER_AMOUNT == '1') ? ' to ' : 's to ';
+        MESSAGE += (IS_BLUE ? 'your counterpart' : 'you') + '. ';
+        RANDOM = ({{ subsession.Treatment }} == 1) ? 'This transfer amount was randomly determined.' : '';
 
 
         document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
         document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
         document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
         document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+        document.getElementById('player-message').innerHTML = MESSAGE;
+        document.getElementById('random-message').innerHTML = RANDOM;
+
 
     </script>
 

@@ -1,5 +1,5 @@
 {{ block title }}
-    Round {{ player.round_number }}, Stage 2
+    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 1
 {{ endblock }}
 {{ block content }}
 
@@ -48,7 +48,7 @@
 
         TRANSFER_MESSAGE2 = 'Your counterpart may now transfer any amount from 0 to ';
         TRANSFER_MESSAGE2 += MAX_TRANSFER;
-        TRANSFER_MESSAGE2 += ' of those additional lab dollars to you';
+        TRANSFER_MESSAGE2 += ' of these additional lab dollars to you';
 
         document.getElementById('transfer-message1').innerHTML = TRANSFER_MESSAGE1;
         document.getElementById('transfer-message2').innerHTML = TRANSFER_MESSAGE2;

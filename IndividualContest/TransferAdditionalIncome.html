@@ -1,5 +1,5 @@
 {{ block title }}
-    Round {{ player.round_number }}, Stage 2
+    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 1
 {{ endblock }}
 {{ block content }}
 
@@ -37,11 +37,11 @@
 
         const MAX_TRANSFER = (Number({{ C.w }}) / 2).toString();
 
-        const TRANSFER_MESSAGE1 = 'In addition to the initial endowment, you alone have been given a further ';
+        TRANSFER_MESSAGE1 = 'In addition to the initial endowment, you alone have been given a further ';
         TRANSFER_MESSAGE1 += MAX_TRANSFER;
         TRANSFER_MESSAGE1 += ' lab dollars.'
 
-        const TRANSFER_MESSAGE2 = 'You may now transfer any amount from 0 to ';
+        TRANSFER_MESSAGE2 = 'You may now transfer any amount from 0 to ';
         TRANSFER_MESSAGE2 += MAX_TRANSFER;
         TRANSFER_MESSAGE2 += ' of these additional lab dollars to your counterpart.';
 

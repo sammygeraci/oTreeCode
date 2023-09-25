@@ -3,88 +3,80 @@
 {{ endblock }}
 
 {{ block content }}
-    <div style="width: 100%;">
-        <div style="width: 50%; float: left;">
-            <p>You began Part 1 with 50 lab dollars.</p>
-            <p id="message-1"></p>
-            <p id="message-2"></p>
-            <p><b id="message-3"></b></p>
-            <br>
-            <p>You began Part 2 with 50 lab dollars.</p>
-            <p id="message-4"></p>
-            <p>The coin landed on {{ player.participant.risk_flip }} </p>
-            <p><b id="message-5"></b></p>
-        </div>
-        <div style="margin-left: 50%;">
-            <p>During Part 3, your randomly selected round to determine your payoff was round {{ player.participant.final_round_num }}.</p>
-            <p>You began Part 3 with 200 lab dollars.</p>
-            <p id="message-6"></p>
-            <p id="message-7"></p>
-            <p>In the lottery, you purchased {{ player.participant.round_x }} lottery tickets.</p>
-            <p>In the lottery, your counterpart purchased {{ player.participant.round_opponent_x }} lottery tickets.</p>
-            <p id="message-8"></p>
-            <p><b>Your total earnings for Part 3 were {{ player.participant.round_pi }}.</b></p>
-        </div>
-        <br><br>
-        <p><b>Your total payoff for the game is: </b><b id="total-payoff"></b><b> lab dollars.</b></p>
-    </div>
+    <p>Your selected round for payoff is round: {{ player.selected_round }}</p>
+    <p>In this round, you were the {{ player.color }} participant.</p>
+    <p id="transfer-message"></p>
+    <p id="rent-message"></p>
+    <p id="invest-message"></p>
+    <p id="win-message"></p>
+    <p>Your payoff for round {{ player.selected_round }} was {{ player.pi }} lab dollars.</p>
+    <p>This is equivalent to ${{ player.round_dollars }} United States Dollars.</p>
+    <p>In round 16, you wagered {{ player.r_x }} lab dollars on the coin flip.</p>
+    <p>The coin landed on {{ player.r_flip }}.</p>
+    <p>Your payoff for round 16 was {{ player.r_pi }} lab dollars.</p>
+    <p>This is equivalent to ${{ player.r_dollars }} United States Dollars.</p>
+    <p>You also received a $5.00 show-up bonus.</p>
+    <p>Your total earnings today are ${{ player.round_dollars }} + ${{ player.r_dollars }} + $5.00 = ${{ player.total_dollars }} United States Dollars.</p>
+
     {{ next_button }}
 
     <script>
-        MESSAGE1 = 'You transferred {{ player.participant.dictator_x }} lab dollar';
-        MESSAGE1 += ({{ player.participant.dictator_x }} == 1) ? '' : 's';
-        MESSAGE1 += ' to your counterpart.';
-        MESSAGE2 = 'Your counterpart transferred {{ player.participant.dictator_opponent_x }} lab dollar';
-        MESSAGE2 += ({{ player.participant.dictator_opponent_x }} == 1) ? '' : 's';
-        MESSAGE2 += ' to you.';
-        MESSAGE3 = 'You finished Part 1 with {{ player.participant.dictator_pi }} lab dollar';
-        MESSAGE3 += ({{ player.participant.dictator_pi }} == 1) ? '.' : 's.';
+        TRANSFER_MESSAGE = "";
+        if ("{{ player.color }}" == "BLUE") {
+            TRANSFER_MESSAGE = "You transferred {{ player.group.a }} lab dollars to your counterpart";
+        }
+        else if ("{{ player.color}}" == "GREEN") {
+            TRANSFER_MESSAGE = "Your counterpart transferred {{ player.group.a }} lab dollars to you";
+        }
 
-	    MESSAGE4 = 'In Part 2, you wagered {{ player.participant.risk_x }} lab dollar';
-        MESSAGE4 += ({{ player.participant.risk_x }} == 1) ? '.' : 's.';
-        MESSAGE5 = 'You finished Part 2 with {{ player.participant.risk_pi }} lab dollar';
-        MESSAGE5 += ({{ player.participant.risk_pi }} == 1) ? '.' : 's.';
-
-        MESSAGE6 = ('{{ player.participant.round_color }}' == 'BLUE') ? 'You ' : 'Your counterpart ';
-        MESSAGE6 += 'transferred ' + {{ player.participant.round_a }} + ' lab dollar';
-        MESSAGE6 += ({{ player.participant.round_a }} == 1) ? ' to you' : 's to you';
-        MESSAGE6 += ('{{ player.participant.round_color }}' == 'BLUE') ? 'r counterpart.' : '.';
-
-        MESSAGE7 = ('{{ player.participant.round_color }}' == 'BLUE') ? 'Your counterpart ' : 'You ';
-        MESSAGE7 += 'set the lottery prize to ' + {{ player.participant.round_r }} + ' lab dollar';
-        MESSAGE7 += ({{ player.participant.round_r }} == 1) ? '.' : 's.';
-
-        if ('{{ player.participant.round_win }}' == 'YES') {
-            if ('{{ player.participant.round_color }}' == 'BLUE') {
-                MESSAGE8 = 'You won. No lab dollars were transferred due to the lottery.';
-            } else {
-                MESSAGE8 = 'You won. Your counterpart transferred {{ player.participant.round_r }} lab dollar';
-                MESSAGE8 += ({{ player.participant.round_r }} == 1) ? ' to you.' : 's to you.';
+        RENT_MESSAGE = "";
+        INVEST_MESSAGE = "";
+        WIN_MESSAGE = "";
+        if ({{ player.R }} == 0) {
+            if ({{ player.selected_round }} < 3) {
+                RENT_MESSAGE = "There was no lottery this round.";
             }
-        } else {
-            if ('{{ player.participant.round_color }}' == 'BLUE') {
-                MESSAGE8 = 'You lost. You transferred {{ player.participant.round_r }} lab dollar';
-                MESSAGE8 += ({{ player.participant.round_r }} == 1) ? ' to your counterpart.' : 's to your counterpart.';
-            } else {
-                MESSAGE8 = 'You lost. No lab dollars were transferred due to the lottery.';
+            else {
+                if ("{{ player.color }}" == "GREEN") {
+                    RENT_MESSAGE = "You set the lottery prize to 0, so no lottery occurred this round.";
+                }
+                else {
+                    RENT_MESSAGE = "Your counterpart set the lottery prize to 0, so no lottery occurred this round.";
+                }
+            }
+
+            INVEST_MESSAGE = "As a result, neither you nor your counterpart purchased lottery tickets.";
+            WIN_MESSAGE = "This round had no lottery winner.";
+        }
+        else {
+            if ("{{ player.color }}" == "GREEN") {
+                RENT_MESSAGE = "You set the lottery prize to {{ player.R }}.";
+            }
+            else {
+                RENT_MESSAGE = "Your counterpart set the lottery prize to {{ player.R }}.";
+            }
+
+            INVEST_MESSAGE = "You purchased {{ player.x }} lottery tickets, and your counterpart purchased {{ player.opponent_x }} lottery tickets.";
+
+            if ("{{ player.win }}" == "YES") {
+                WIN_MESSAGE = "You won the lottery this round.";
+            }
+            else {
+                WIN_MESSAGE = "You did not with the lottery this round.";
             }
         }
 
-        TOTAL_PAYOFF = {{ player.participant.dictator_pi }} + {{ player.participant.risk_pi }} + {{ player.participant.round_pi }};
 
-        document.getElementById('message-1').innerHTML = MESSAGE1;
-        document.getElementById('message-2').innerHTML = MESSAGE2;
-        document.getElementById('message-3').innerHTML = MESSAGE3;
 
-        document.getElementById('message-4').innerHTML = MESSAGE4;
-        document.getElementById('message-5').innerHTML = MESSAGE5;
 
-        document.getElementById('message-6').innerHTML = MESSAGE6;
-        document.getElementById('message-7').innerHTML = MESSAGE7;
 
-        document.getElementById('message-8').innerHTML = MESSAGE8;
 
-        document.getElementById('total-payoff').innerHTML = TOTAL_PAYOFF;
+
+
+        document.getElementById('transfer-message').innerHTML = TRANSFER_MESSAGE;
+        document.getElementById('rent-message').innerHTML = RENT_MESSAGE;
+        document.getElementById('invest-message').innerHTML = INVEST_MESSAGE;
+        document.getElementById('win-message').innerHTML = WIN_MESSAGE;
     </script>
 {{ endblock }}
 
