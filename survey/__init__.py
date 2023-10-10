@@ -198,15 +198,28 @@ class Player(BasePlayer):
         "Puerto Rico",
         "U.S. Virgin Islands"
     ])
+    CRTQ1 = models.CurrencyField(label="Q1. A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the "
+                                       "ball. How much does the ball cost? (in dollars) ")
+    CRTQ2 = models.IntegerField(label="If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 "
+                                      "machines to make 100 widgets? (in minutes)")
+    CRTQ3 = models.IntegerField(label="In a lake, there is a patch of lily pads. Every day, the patch doubles in "
+                                      "size. If it takes 48 days for the patch to cover the entire lake, "
+                                      "how long would it take for the patch to cover half of the lake? (in days)")
+    CRT_Score = models.IntegerField(initial=0)
+
+
+def calculate_crt(player):
+    if player.CRTQ1 == cu(0.05):
+        player.CRT_Score += 1
+    if player.CRTQ2 == 5:
+        player.CRT_Score += 1
+    if player.CRTQ3 == 47:
+        player.CRT_Score += 1
 
 
 # PAGES
 class Stop(Page):
     pass
-
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == 1
 
 
 class MyPage(Page):
@@ -214,4 +227,13 @@ class MyPage(Page):
     form_fields = ['age', 'gender', 'race', 'grade', 'major', 'other_major', 'state']
 
 
-page_sequence = [Stop, MyPage]
+class CRTSurvey(Page):
+    form_model = "player"
+    form_fields = ['CRTQ1', 'CRTQ2', 'CRTQ3']
+
+
+class CalculateCRT(WaitPage):
+    after_all_players_arrive = 'calculate_crt'
+
+
+page_sequence = [Stop, MyPage, CRTSurvey, CalculateCRT]
