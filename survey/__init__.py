@@ -208,13 +208,14 @@ class Player(BasePlayer):
     CRT_Score = models.IntegerField(initial=0)
 
 
-def calculate_crt(player):
-    if player.CRTQ1 == cu(0.05):
-        player.CRT_Score += 1
-    if player.CRTQ2 == 5:
-        player.CRT_Score += 1
-    if player.CRTQ3 == 47:
-        player.CRT_Score += 1
+def calculate_crt(group):
+    for p in group.get_players():
+        if p.CRTQ1 == cu(0.05):
+            p.CRT_Score += 1
+        if p.CRTQ2 == 5:
+            p.CRT_Score += 1
+        if p.CRTQ3 == 47:
+            p.CRT_Score += 1
 
 
 # PAGES
