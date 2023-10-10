@@ -140,7 +140,7 @@ class Player(BasePlayer):
     ])
     other_major = models.StringField(label="If other, enter degree program: ", blank=True)
     state = models.StringField(label="State of origin (state where you graduated high school): ", choices=[
-        "I did not graduate high school in the United States."
+        "I did not graduate high school in the United States.",
         "Alabama",
         "Alaska",
         "Arizona",
@@ -201,9 +201,17 @@ class Player(BasePlayer):
 
 
 # PAGES
+class Stop(Page):
+    pass
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+
+
 class MyPage(Page):
     form_model = "player"
     form_fields = ['age', 'gender', 'race', 'grade', 'major', 'other_major', 'state']
 
 
-page_sequence = [MyPage]
+page_sequence = [Stop, MyPage]

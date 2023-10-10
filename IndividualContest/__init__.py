@@ -115,6 +115,14 @@ def update_data(group):
 
 
 # PAGES
+class Stop(Page):
+    pass
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+
+
 class TransferAdditionalIncome(Page):
     form_model = "group"
     form_fields = ['a']
@@ -208,6 +216,6 @@ class ShuffleWaitPage(WaitPage):
         pass
 
 
-page_sequence = [TransferAdditionalIncome, DisplayAdditionalIncome,RandomAdditionalIncome, DisplayIncomeTransfer,
+page_sequence = [Stop, TransferAdditionalIncome, DisplayAdditionalIncome,RandomAdditionalIncome, DisplayIncomeTransfer,
                  SetRent, WaitForRent, Invest,OpponentEffort, DetermineWinner, CalculateProfits, Results,
                  ResultsNoLottery, UpdateParticipantData, ShuffleWaitPage]

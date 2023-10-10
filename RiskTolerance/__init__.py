@@ -42,6 +42,14 @@ def calculate_coin_flip(group):
 
 
 # PAGES
+class Stop(Page):
+    pass
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+
+
 class MyPage(Page):
     form_model = "player"
     form_fields = ['x']
@@ -61,4 +69,4 @@ class Results(Page):
         player.participant.risk_flip = player.coin_flip
 
 
-page_sequence = [MyPage, CalculateCoinFlip, Results]
+page_sequence = [Stop, MyPage, CalculateCoinFlip, Results]
