@@ -61,6 +61,10 @@ def creating_session(subsession):
 
 
 # PAGES
+class Stop(Page):
+    pass
+
+
 class Dictator(Page):
     form_model = "group"
     form_fields = ['a']
@@ -90,4 +94,4 @@ class Results(Page):
         player.participant.dictator_opponent_x = player.opponent_x
 
 
-page_sequence = [Dictator, Wait, CalculateDictator]
+page_sequence = [Stop, Dictator, Wait, CalculateDictator]

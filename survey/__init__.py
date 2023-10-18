@@ -205,7 +205,6 @@ class Player(BasePlayer):
     CRTQ3 = models.IntegerField(label="In a lake, there is a patch of lily pads. Every day, the patch doubles in "
                                       "size. If it takes 48 days for the patch to cover the entire lake, "
                                       "how long would it take for the patch to cover half of the lake? (in days)")
-    CRT_Score = models.IntegerField(initial=0)
 
 
 def calculate_crt(group):
@@ -233,8 +232,4 @@ class CRTSurvey(Page):
     form_fields = ['CRTQ1', 'CRTQ2', 'CRTQ3']
 
 
-class CalculateCRT(WaitPage):
-    after_all_players_arrive = 'calculate_crt'
-
-
-page_sequence = [Stop, MyPage, CRTSurvey, CalculateCRT]
+page_sequence = [Stop, MyPage, CRTSurvey]
