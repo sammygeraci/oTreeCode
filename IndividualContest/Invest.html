@@ -10,7 +10,7 @@
       </tr>
       <tr>
         <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
-        <td style="text-align: left">Opponent</td>
+        <td style="text-align: left">Counterpart</td>
       </tr>
     </table>
 
@@ -39,7 +39,7 @@
         PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT1;
         PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
 	PLAYER_WIN_MESSAGE += ' minus the amount you spend on tickets';
-        PLAYER_WIN_MESSAGE += ', and your opponent will have ';
+        PLAYER_WIN_MESSAGE += ', and your counterpart will have ';
         PLAYER_WIN_AMOUNT2 = (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }});
         PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT2;
         PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';
@@ -50,7 +50,7 @@
         PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT1;
         PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
 	PLAYER_LOSE_MESSAGE += ' minus the amount you spend on tickets';
-        PLAYER_LOSE_MESSAGE += ', and your opponent will have ';
+        PLAYER_LOSE_MESSAGE += ', and your counterpart will have ';
         PLAYER_LOSE_AMOUNT2 = (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY);
         PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT2;
         PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';

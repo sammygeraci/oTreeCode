@@ -64,6 +64,10 @@ def creating_session(subsession):
 class Stop(Page):
     pass
 
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+
 
 class Dictator(Page):
     form_model = "group"

@@ -15,7 +15,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    Treatment = models.IntegerField(initial=2, min=1, max=2)
+    Treatment = models.IntegerField(initial=1, min=1, max=2)
     Adjusted_Round = models.IntegerField(initial=2)
 
 
@@ -62,7 +62,7 @@ def creating_session(subsession):
 # initializes additional income a given to player 2
 def set_random_additional_income(group):
     if group.subsession.Treatment == 1:
-        group.a = random.randint(0, C.w + 1)
+        group.a = random.randint(0, int(C.w/2) + 1)
 
 
 def set_opponent_effort(group):
@@ -121,6 +121,14 @@ class Stop(Page):
     @staticmethod
     def is_displayed(player):
         return player.round_number == 1
+
+
+class TransferStage1(Page):
+    pass
+
+    @staticmethod
+    def is_displayed(player):
+        return player.subsession.Treatment == 1
 
 
 class TransferAdditionalIncome(Page):
@@ -216,6 +224,6 @@ class ShuffleWaitPage(WaitPage):
         pass
 
 
-page_sequence = [Stop, TransferAdditionalIncome, DisplayAdditionalIncome,RandomAdditionalIncome, DisplayIncomeTransfer,
+page_sequence = [Stop, TransferStage1, TransferAdditionalIncome, DisplayAdditionalIncome, RandomAdditionalIncome, DisplayIncomeTransfer,
                  SetRent, WaitForRent, Invest,OpponentEffort, DetermineWinner, CalculateProfits, Results,
                  ResultsNoLottery, UpdateParticipantData, ShuffleWaitPage]

@@ -1,0 +1,62 @@
+{{ block title }}
+    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 1
+{{ endblock }}
+{{ block content }}
+
+    <table style="border-spacing: 4px; border-collapse: separate">
+      <tr>
+        <td style="width: 2em" id="legend-player-color">&nbsp;</td>
+        <td style="text-align: left">You</td>
+        <td style="text-align: left" id="legend-player-money"></td>
+      </tr>
+      <tr>
+        <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
+        <td style="text-align: left">Counterpart</td>
+        <td style="text-align: left" id="legend-opponent-money"></td>
+      </tr>
+    </table>
+
+    <br>
+    <p>You and your counterpart have each been given an initial endowment of 200 lab dollars.</p>
+    <p id="transfer-message1"></p>
+    <p id="transfer-message2"></p>
+
+    {{ next_button }}
+
+    <script>
+    
+        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
+        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
+        const INITIAL_ENDOWMENT = '{{ C.w }}';
+        const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT;
+        const RED_MONEY = INITIAL_ENDOWMENT;
+        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+
+
+        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+
+        const MAX_TRANSFER = (Number({{ C.w }}) / 2).toString();
+
+        TRANSFER_MESSAGE1 = 'In addition to the initial endowment, you';
+        TRANSFER_MESSAGE1 += (IS_BLUE ? ' have ' : 'r counterpart has ');
+        TRANSFER_MESSAGE1 += 'been given a further ';
+        TRANSFER_MESSAGE1 += MAX_TRANSFER;
+        TRANSFER_MESSAGE1 += ' lab dollars.'
+
+        TRANSFER_MESSAGE2 = 'A random amount from 0 to ';
+        TRANSFER_MESSAGE2 += MAX_TRANSFER;
+        TRANSFER_MESSAGE2 += ' of these additional lab dollars will now be transferred from you';
+        TRANSFER_MESSAGE2 += (IS_BLUE ? ' to your counterpart. ' : 'r counterpart to you. ');
+
+        document.getElementById('transfer-message1').innerHTML = TRANSFER_MESSAGE1;
+        document.getElementById('transfer-message2').innerHTML = TRANSFER_MESSAGE2;
+    
+    
+    </script>
+
+{{ endblock }}

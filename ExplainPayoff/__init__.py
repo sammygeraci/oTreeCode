@@ -36,27 +36,26 @@ class Player(BasePlayer):
     total_dollars = models.CurrencyField()
 
 
-def calculate_payoffs(group):
-    for p in group.get_players():
-        p.selected_round = p.participant.final_round_num
-        p.pi = p.participant.round_pi
-        p.round_dollars = p.pi / 50
-        p.a = p.participant.round_a
-        p.R = p.participant.round_r
-        p.x = p.participant.round_x
-        p.opponent_x = p.participant.round_opponent_x
-        p.win = p.participant.round_win
-        p.color = p.participant.round_color
-        p.r_x = p.participant.risk_x
-        p.r_pi = p.participant.risk_pi
-        p.r_flip = p.participant.risk_flip
-        p.r_dollars = p.r_pi / 50
-        p.total_dollars = p.round_dollars + p.r_dollars + 5
-
-
 # PAGES
-class CalculatePayoff(WaitPage):
-    after_all_players_arrive = 'calculate_payoffs'
+class CalculatePayoff(Page):
+    pass
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        player.selected_round = player.participant.final_round_num
+        player.pi = player.participant.round_pi
+        player.round_dollars = player.pi / 50
+        player.a = player.participant.round_a
+        player.R = player.participant.round_r
+        player.x = player.participant.round_x
+        player.opponent_x = player.participant.round_opponent_x
+        player.win = player.participant.round_win
+        player.color = player.participant.round_color
+        player.r_x = player.participant.risk_x
+        player.r_pi = player.participant.risk_pi
+        player.r_flip = player.participant.risk_flip
+        player.r_dollars = player.r_pi / 50
+        player.total_dollars = player.round_dollars + player.r_dollars + 5
 
 
 class Results(Page):

@@ -205,16 +205,7 @@ class Player(BasePlayer):
     CRTQ3 = models.IntegerField(label="In a lake, there is a patch of lily pads. Every day, the patch doubles in "
                                       "size. If it takes 48 days for the patch to cover the entire lake, "
                                       "how long would it take for the patch to cover half of the lake? (in days)")
-
-
-def calculate_crt(group):
-    for p in group.get_players():
-        if p.CRTQ1 == cu(0.05):
-            p.CRT_Score += 1
-        if p.CRTQ2 == 5:
-            p.CRT_Score += 1
-        if p.CRTQ3 == 47:
-            p.CRT_Score += 1
+    CRT_Score = models.IntegerField(initial=0)
 
 
 # PAGES
@@ -230,6 +221,15 @@ class MyPage(Page):
 class CRTSurvey(Page):
     form_model = "player"
     form_fields = ['CRTQ1', 'CRTQ2', 'CRTQ3']
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        if player.CRTQ1 == cu(0.05):
+            player.CRT_Score += 1
+        if player.CRTQ2 == 5:
+            player.CRT_Score += 1
+        if player.CRTQ3 == 47:
+            player.CRT_Score += 1
 
 
 page_sequence = [Stop, MyPage, CRTSurvey]
