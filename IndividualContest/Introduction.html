@@ -1,5 +1,5 @@
 {{ block title }}
-    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 1
+    Stage: 1
 {{ endblock }}
 {{ block content }}
 
@@ -16,24 +16,32 @@
       </tr>
     </table>
 
-    <br>
+
+    <p>&nbsp;&nbsp;&nbsp;</p>
+    <p>You are the <span id="player-name"></span> player.
+        You and your counterpart (the <span id="opponent-name"></span> player) have each been given {{ C.w }} points.&nbsp;</p>
 
     {{ next_button }}
 
     <script>
 
-        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
-        const INITIAL_ENDOWMENT = '{{ C.w }}';
-        const PLAYER_MONEY = INITIAL_ENDOWMENT;
-        const OPPONENT_MONEY = INITIAL_ENDOWMENT;
+    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+    const PLAYER_NAME = (IS_BLUE ? 'BLUE' : 'RED');
+    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+    const OPPONENT_NAME = (IS_BLUE ? 'RED' : 'BLUE');
+    const INITIAL_ENDOWMENT = '{{ C.w }}';
+    const BLUE_MONEY = INITIAL_ENDOWMENT;
+    const RED_MONEY = INITIAL_ENDOWMENT;;
+    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
 
-
-        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+    document.getElementById('player-name').innerText = PLAYER_NAME;
+    document.getElementById('opponent-name').innerText = OPPONENT_NAME;
 
 
     </script>

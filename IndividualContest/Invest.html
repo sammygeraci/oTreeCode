@@ -1,68 +1,79 @@
 {{ block title }}
-    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 3
+    Stage: 3
 {{ endblock }}
+
 {{ block content }}
 
     <table style="border-spacing: 4px; border-collapse: separate">
       <tr>
         <td style="width: 2em" id="legend-player-color">&nbsp;</td>
         <td style="text-align: left">You</td>
+        <td style="text-align: left" id="legend-player-money"></td>
       </tr>
       <tr>
         <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
         <td style="text-align: left">Counterpart</td>
+        <td style="text-align: left" id="legend-opponent-money"></td>
       </tr>
     </table>
 
-    <br>
-    <p>The lottery prize is {{ group.R }} lab dollars.</p>
-    <p id="player-win-message"></p>
-    <p id="player-lose-message"></p>
-    <p>You now have the opportunity to purchase up to 100 lottery tickets for 1 lab dollar per ticket.</p>
-    {{ formfields }}
+
+    <p>&nbsp;&nbsp;&nbsp;</p>
+    <p>You now have the opportunity to purchase raffle tickets. <span id="player-message"></span></p>
+    <p>If you win, your final point total for this round will be <span id="player-if-player-wins"></span> minus the
+        amount you invest, and your counterpart's point total will be <span id="opponent-if-player-wins"></span>
+        minus the amount they invest.
+    </p>
+    <p>If you lose, your final point total for this round will be <span id="player-if-opponent-wins"></span> minus the
+        amount you invest, and your counterpart's point total will be <span id="opponent-if-opponent-wins"></span>
+        minus the amount they invest.
+    </p>
+    {{ form.x }}
+    <p>&nbsp;</p>
     {{ next_button }}
 
     <script>
-    
-        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
-        const INITIAL_ENDOWMENT = '{{ C.w }}';
-        const TRANSFER_AMOUNT = '{{ group.a }}';
-        const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-        const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
-        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
 
-        PLAYER_WIN_MESSAGE = 'If your lottery ticket is chosen, you will have ';
-        PLAYER_WIN_AMOUNT1 = (IS_BLUE ? BLUE_MONEY : RED_MONEY + {{ group.R }});
-        PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT1;
-        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
-	PLAYER_WIN_MESSAGE += ' minus the amount you spend on tickets';
-        PLAYER_WIN_MESSAGE += ', and your counterpart will have ';
-        PLAYER_WIN_AMOUNT2 = (IS_BLUE ? RED_MONEY : BLUE_MONEY - {{ group.R }});
-        PLAYER_WIN_MESSAGE += PLAYER_WIN_AMOUNT2;
-        PLAYER_WIN_MESSAGE += (PLAYER_WIN_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';
-	PLAYER_WIN_MESSAGE += ' minus the amount they spend on tickets.';
+    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+    const INITIAL_ENDOWMENT = '{{ C.w }}';
+    const TRANSFER_AMOUNT = '{{ group.a }}' * 1;
+    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+    const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+    const CONTEST_PRIZE = '{{ group.R }}';
 
-        PLAYER_LOSE_MESSAGE = "If your counterpart's lottery ticket is chosen, you will have ";
-        PLAYER_LOSE_AMOUNT1 = (IS_BLUE ? BLUE_MONEY - {{ group.R }} : RED_MONEY);
-        PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT1;
-        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT1 == 1) ? ' lab dollar' : ' lab dollars';
-	PLAYER_LOSE_MESSAGE += ' minus the amount you spend on tickets';
-        PLAYER_LOSE_MESSAGE += ', and your counterpart will have ';
-        PLAYER_LOSE_AMOUNT2 = (IS_BLUE ? RED_MONEY + {{ group.R }} : BLUE_MONEY);
-        PLAYER_LOSE_MESSAGE += PLAYER_LOSE_AMOUNT2;
-        PLAYER_LOSE_MESSAGE += (PLAYER_LOSE_AMOUNT2 == 1) ? ' lab dollar' : ' lab dollars';
-	PLAYER_LOSE_MESSAGE += ' minus the amount they spend on tickets.';
-    
+    const RED_IF_RED_WINS = RED_MONEY + (1 * CONTEST_PRIZE);
+    const BLUE_IF_RED_WINS = BLUE_MONEY - (1 * CONTEST_PRIZE);
+    const RED_IF_BLUE_WINS = RED_MONEY;
+    const BLUE_IF_BLUE_WINS = BLUE_MONEY;
 
-        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_MESSAGE;
-        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_MESSAGE;
-    
-    
+    const PLAYER_IF_PLAYER_WINS = (IS_BLUE ? BLUE_IF_BLUE_WINS : RED_IF_RED_WINS);
+    const PLAYER_IF_OPPONENT_WINS = (IS_BLUE ? BLUE_IF_RED_WINS : RED_IF_BLUE_WINS);
+    const OPPONENT_IF_OPPONENT_WINS = (IS_BLUE ? RED_IF_RED_WINS : BLUE_IF_BLUE_WINS);
+    const OPPONENT_IF_PLAYER_WINS = (IS_BLUE ? RED_IF_BLUE_WINS : BLUE_IF_RED_WINS);
+
+
+    const PLAYER_MESSAGE = (IS_BLUE ? 'You are player BLUE, so no points will be transferred if you win.' : 'You are '
+    + 'player RED, so ' + CONTEST_PRIZE + ' points will be transferred from your counterpart to you if you win.');
+
+    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
+    document.getElementById('player-message').innerText = PLAYER_MESSAGE;
+<!--    document.getElementById('opponent-color-name-1').innerText = (IS_BLUE ? 'RED' : 'BLUE');-->
+<!--    document.getElementById('opponent-color-name-2').innerText = (IS_BLUE ? 'RED' : 'BLUE');-->
+    document.getElementById('player-if-player-wins').innerText = PLAYER_IF_PLAYER_WINS;
+    document.getElementById('player-if-opponent-wins').innerText = PLAYER_IF_OPPONENT_WINS;
+    document.getElementById('opponent-if-opponent-wins').innerText = OPPONENT_IF_OPPONENT_WINS;
+    document.getElementById('opponent-if-player-wins').innerText = OPPONENT_IF_PLAYER_WINS;
+
+
     </script>
 
 {{ endblock }}
+
+

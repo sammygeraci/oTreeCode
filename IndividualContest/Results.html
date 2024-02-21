@@ -1,9 +1,15 @@
 {{ block title }}
-    Section 1, Round {{ player.subsession.Adjusted_Round }} Results
+    Results
 {{ endblock }}
+
 {{ block content }}
 
     <div style="text-align: center">
+      <div id="countdown" style="margin-bottom: 1rem;">
+        Spinning in
+        <div id="time-until-spin" style="font-size: 200%; font-weight: bold;"></div>
+        <div id="time-until-spin-meter" style="border-bottom: 6px solid #000; margin: auto;"></div>
+      </div>
       <table style="border-spacing: 4px; border-collapse: separate">
         <tr>
           <td style="width: 2em" id="legend-player-color">&nbsp;</td>
@@ -16,18 +22,13 @@
           <td style="text-align: left" id="legend-opponent-money"></td>
         </tr>
       </table>
-        <div id="countdown" style="margin-bottom: 0rem;">
-        Spinning in
-        <div id="time-until-spin" style="font-size: 200%; font-weight: bold;"></div>
-        <div id="time-until-spin-meter" style="border-bottom: 6px solid #000; margin: auto;"></div>
-      </div>
       <p>
         <canvas id="canvas" width="250" height="250"></canvas>
       </p>
     </div>
 
     <p>
-      You purchased {{ player.x }} raffle tickets. Your opponent purchased
+      You purchased {{ player.x }} raffle tickets. Your counterpart purchased
       {{ player.opponent_x }} raffle tickets. Your probability of winning is about
       <span id="win_prob_pct"></span>%.
     </p>
@@ -36,7 +37,7 @@
     </p>
 
     <script>
-    console.log('test');
+      console.log('test');
       class Sector {
         constructor(color, angle) {
           this.color = color;
@@ -220,7 +221,7 @@
       console.log(EFFORT);
       const OPPONENT_EFFORT = {{ player.opponent_x }};
       const TOTAL_EFFORT = EFFORT + OPPONENT_EFFORT;
-      const WIN_PROB = (TOTAL_EFFORT == 0) ? 0.5 : EFFORT /  TOTAL_EFFORT;
+      const WIN_PROB = EFFORT /  TOTAL_EFFORT;
       const OPPONENT_WIN_PROB = 1 - WIN_PROB;
       const DID_WIN = ('{{ player.id_in_group }}' === '{{ player.group.winner }}');
       const IS_BLUE = ('{{ player.id_in_group }}' == '1');
@@ -232,14 +233,26 @@
         Math.round(1000 * WIN_PROB) / 10
       ).toFixed(1);
 
-      const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-      const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
+      const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+      const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+
       const INITIAL_ENDOWMENT = '{{ C.w }}';
       const TRANSFER_AMOUNT = '{{ group.a }}';
-      const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-      const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-      const PLAYER_MONEY = (IS_BLUE ? (BLUE_MONEY - EFFORT) : (RED_MONEY - EFFORT));
-      const OPPONENT_MONEY = (IS_BLUE ? (RED_MONEY - OPPONENT_EFFORT) : (BLUE_MONEY - OPPONENT_EFFORT));
+
+      const BLUE_EFFORT = (IS_BLUE ? EFFORT : OPPONENT_EFFORT);
+      const RED_EFFORT = (IS_BLUE ? OPPONENT_EFFORT : EFFORT);
+
+      const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT - BLUE_EFFORT;
+      const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT) - RED_EFFORT;
+
+      const CONTEST_PRIZE = '{{ group.R }}';
+      const RED_IF_RED_WINS = RED_MONEY + (1 * CONTEST_PRIZE);
+      const BLUE_IF_RED_WINS = BLUE_MONEY - (1 * CONTEST_PRIZE);
+      const RED_IF_BLUE_WINS = RED_MONEY;
+      const BLUE_IF_BLUE_WINS = BLUE_MONEY;
+
+      const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+      const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
       
 
 
@@ -261,8 +274,10 @@
           outcome.style.visibility = 'visible';
           outcome.style.opacity = '1';
           document.getElementById('nextbutton-outer').style.visibility = 'visible';
-          document.getElementById('legend-player-money').innerHTML = {{ player.pi }};
-          document.getElementById('legend-opponent-money').innerHTML = {{ player.opponent_pi }};
+          const NEW_PLAYER_MONEY = (DID_WIN ? (IS_BLUE ? BLUE_IF_BLUE_WINS : RED_IF_RED_WINS) : (IS_BLUE ? BLUE_IF_RED_WINS : RED_IF_BLUE_WINS));
+          const NEW_OPPONENT_MONEY = (DID_WIN ? (IS_BLUE ? RED_IF_BLUE_WINS : BLUE_IF_RED_WINS) : (IS_BLUE ? RED_IF_RED_WINS : BLUE_IF_BLUE_WINS));
+          document.getElementById('legend-player-money').innerHTML = NEW_PLAYER_MONEY;
+          document.getElementById('legend-opponent-money').innerHTML = NEW_OPPONENT_MONEY;
         }
       });
 

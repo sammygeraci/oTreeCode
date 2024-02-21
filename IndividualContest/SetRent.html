@@ -1,7 +1,9 @@
 {{ block title }}
-    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 2
+    Stage: 1, Page 2
 {{ endblock }}
+
 {{ block content }}
+
     <table style="border-spacing: 4px; border-collapse: separate">
       <tr>
         <td style="width: 2em" id="legend-player-color">&nbsp;</td>
@@ -15,45 +17,35 @@
       </tr>
     </table>
 
-    <br>
-    <p id="player-message"></p>
-    <p id="random-message"></p>
-    <p>You will now enter a lottery with your counterpart.</p>
-    <p>You and your counterpart will each have the opportunity to purchase lottery tickets.</p>
-    <p>One lottery ticket will randomly be selected.</p>
-    <p>If your lottery ticket is selected, your counterpart will transfer the amount of the lottery prize to you.</p>
-    <p>If your counterpart's lottery ticket is selected, no transfer will occur.</p>
-    <p>If the lottery prize is 0, no lottery will occur, and you will proceed to the next round. </p>
 
-    {{ formfields }}
+    <p>&nbsp;&nbsp;&nbsp;</p>
+    <p>You now have the opportunity to determine how many points your counterpart will transfer to you if you win the
+        upcoming contest.</p>
+    {{ form.R }}
+    <p>&nbsp;</p>
     {{ next_button }}
 
     <script>
 
-        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
-        const INITIAL_ENDOWMENT = '{{ C.w }}';
-        const TRANSFER_AMOUNT = '{{ group.a }}';
-        const BLUE_MONEY = 1.5 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-        const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
-        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
-        MESSAGE = (IS_BLUE ? 'You' : 'Your counterpart');
-        MESSAGE = MESSAGE + ' transferred ' + TRANSFER_AMOUNT + ' lab dollar';
-        MESSAGE += (TRANSFER_AMOUNT == '1') ? ' to ' : 's to ';
-        MESSAGE += (IS_BLUE ? 'your counterpart' : 'you') + '. ';
-        RANDOM = ({{ subsession.Treatment }} == 1) ? 'This transfer amount was randomly determined.' : '';
+    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+    const INITIAL_ENDOWMENT = '{{ C.w }}';
+    const TRANSFER_AMOUNT = '{{ group.a }}';
+    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+    const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
 
 
-        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
-        document.getElementById('player-message').innerHTML = MESSAGE;
-        document.getElementById('random-message').innerHTML = RANDOM;
+    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
 
 
     </script>
 
 {{ endblock }}
+
+

@@ -1,5 +1,5 @@
 {{ block title }}
-    Section 1, Round {{ player.subsession.Adjusted_Round }}, Stage 3
+    Display Rent
 {{ endblock }}
 {{ block content }}
 
@@ -11,39 +11,34 @@
       </tr>
       <tr>
         <td style="width: 2em" id="legend-opponent-color">&nbsp;</td>
-        <td style="text-align: left">Counterpart</td>
+        <td style="text-align: left">Opponent</td>
         <td style="text-align: left" id="legend-opponent-money"></td>
       </tr>
     </table>
 
-    <br>
-    <p>The lottery prize is {{ group.R }}.</p>
-    <p id="player-win-message"></p>
-    <p id="player-lose-message"></p>
+
+    You are player {{ player.id_in_group }}.
+    Rent is {{ group.R }}.
 
     {{ next_button }}
 
     <script>
-
-        const IS_BLUE = ('{{ player.id_in_group }}' == '1');
-        const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#00ff00');
-        const OPPONENT_COLOR = (IS_BLUE ? '#00ff00' : '#0000ff');
-        const INITIAL_ENDOWMENT = '{{ C.w }}';
-        const TRANSFER_AMOUNT = '{{ group.a }}';
-        const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
-        const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
-        const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
-        const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
-
-
-
-
-        document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
-        document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
-        document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
-        document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
-        document.getElementById('player-win-message').innerHTML = PLAYER_WIN_MESSAGE;
-        document.getElementById('player-lose-message').innerHTML = PLAYER_LOSE_MESSAGE;
+    
+    const IS_BLUE = ('{{ player.id_in_group }}' == '1');
+    const PLAYER_COLOR = (IS_BLUE ? '#0000ff' : '#ff0000');
+    const OPPONENT_COLOR = (IS_BLUE ? '#ff0000' : '#0000ff');
+    const INITIAL_ENDOWMENT = '{{ C.w }}';
+    const TRANSFER_AMOUNT = '{{ group.a }}';
+    const BLUE_MONEY = 2 * INITIAL_ENDOWMENT - TRANSFER_AMOUNT;
+    const RED_MONEY = (1 * INITIAL_ENDOWMENT) + (1 * TRANSFER_AMOUNT);
+    const PLAYER_MONEY = (IS_BLUE ? BLUE_MONEY : RED_MONEY);
+    const OPPONENT_MONEY = (IS_BLUE ? RED_MONEY : BLUE_MONEY);
+    
+    
+    document.getElementById('legend-player-color').style.background = PLAYER_COLOR;
+    document.getElementById('legend-opponent-color').style.background = OPPONENT_COLOR;
+    document.getElementById('legend-player-money').innerHTML = PLAYER_MONEY;
+    document.getElementById('legend-opponent-money').innerHTML = OPPONENT_MONEY;
     
     
     </script>
